@@ -99,6 +99,30 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 
 	private SmoothScrollRunnable mCurrentSmoothScrollRunnable;
 
+    private OnHeaderFooterHeightChangeListener mOnHeaderFooterHeightChangeListener;
+
+    public OnHeaderFooterHeightChangeListener getmOnHeaderFooterHeightChangeListener()
+    {
+        return mOnHeaderFooterHeightChangeListener;
+    }
+
+    public void setmOnHeaderFooterHeightChangeListener(
+            OnHeaderFooterHeightChangeListener mOnHeaderFooterHeightChangeListener)
+    {
+        this.mOnHeaderFooterHeightChangeListener =
+                mOnHeaderFooterHeightChangeListener;
+    }
+
+
+    public static interface OnHeaderFooterHeightChangeListener {
+
+        /**
+         * Called when the user has scrolled to the end of the list
+         */
+        public void doChange(int translationY);
+
+    }
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -950,6 +974,11 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 			Log.d(LOG_TAG, "setHeaderScroll: " + value);
 		}
 
+        if (this.mOnHeaderFooterHeightChangeListener != null)
+        {
+            this.mOnHeaderFooterHeightChangeListener.doChange(value);
+        }
+
 		// Clamp value to with pull scroll range
 		final int maximumPullScroll = getMaximumPullScroll();
 		value = Math.min(maximumPullScroll, Math.max(-maximumPullScroll, value));
@@ -1249,6 +1278,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 		if (null != mCurrentSmoothScrollRunnable) {
 			mCurrentSmoothScrollRunnable.stop();
 		}
+
 
 		final int oldScrollValue;
 		switch (getPullToRefreshScrollDirection()) {
