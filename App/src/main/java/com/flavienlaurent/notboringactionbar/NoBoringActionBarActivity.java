@@ -146,16 +146,6 @@ public class NoBoringActionBarActivity extends Activity
     {
         View c = mListView.getRefreshableView().getChildAt(1);
 
-        for (int i = 0; i < mListView.getRefreshableView().getChildCount(); i++)
-        {
-            System.out.println("33333   i = "
-                    + i
-                    + "   top = "
-                    + mListView.getRefreshableView().getChildAt(i).getTop()
-                    + "   height = "
-                    + mListView.getRefreshableView().getChildAt(i).getHeight());
-        }
-
         if (c == null)
         {
             return 0;
@@ -170,8 +160,6 @@ public class NoBoringActionBarActivity extends Activity
         {
             headerHeight = mPlaceHolderView.getHeight() - c1.getHeight();
         }
-        System.out.println("33333   return sy = " + (-top + firstVisiblePosition * c.getHeight() + headerHeight));
-
         return -top + firstVisiblePosition * c.getHeight() + headerHeight;
     }
 
